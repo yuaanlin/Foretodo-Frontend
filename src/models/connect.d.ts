@@ -3,17 +3,38 @@ import { Reducer } from 'redux';
 
 import { GlobalModelState } from './global';
 import { UserModelState } from './user';
+import { HomeModelState } from './home';
 
 export {
   UserModelState,
+  GlobalModelState,
+  HomeModelState,
 };
 
 export interface ConnectState {
+  loading: Loading;
   global: GlobalModelState;
   user: UserModelState;
+  home: HomeModelState;
   routing: { location: Location };
 }
 
+//********************//
+// Loading 相关类型定义 //
+//********************//
+
+export interface Loading {
+  global: boolean;
+  effects: { [key: string]: boolean };
+  models: {
+    global?: boolean;
+    home?: boolean;
+    detail?: boolean;
+    search?: boolean;
+    user?: boolean;
+    login?: boolean;
+  };
+}
 
 //*********************//
 // dispatch 相关类型定义 //

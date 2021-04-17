@@ -1,0 +1,33 @@
+@import '../../theme/theme';
+.header {
+  height: 200px;
+  background: white;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  //background: @background-base-color;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: stretch;
+  justify-content: stretch;
+  :global {
+    .at-message {
+      top: 200px;
+    }
+    .at-input--disabled {
+      opacity: 1;
+    }
+  }
+}
+.button {
+  margin: 60px auto;
+  background: @button-gradient-line;
+  border: none;
+  width: 90%;
+  bottom: 2%;
+  box-shadow: 0 16px 32px @brand-color-shadow;
+}

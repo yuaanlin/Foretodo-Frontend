@@ -1,0 +1,62 @@
+@import '../../theme/theme';
+@import '../../theme/class';
+
+.container {
+  padding: 16px 24px 12px;
+  transition: all 100ms ease-out;
+  &:focus,
+  &:active {
+    background: @background-base-color;
+  }
+  border-bottom: 2px solid @background-base-color;
+  display: flex;
+}
+
+.close {
+  margin-left: 8px;
+}
+.num {
+  margin-right: 16px;
+  font-style: italic;
+  font-weight: bold;
+}
+.left {
+  max-width: 75%;
+
+  font-size: 32px;
+  //overflow: hidden;
+  text-overflow: ellipsis;
+}
+.right {
+  font-size: 28px;
+  max-width: 25%;
+  color: @text-color;
+}
+// 用wrapper包住子集的方法能够呈现缩进
+.titleWrapper {
+  display: inline-flex;
+}
+.title {
+  color: @text-second-color;
+  margin-left: 16px;
+  font-size: 28px;
+  text-overflow: ellipsis;
+}
+
+.rate {
+  color: @note-color;
+  margin-left: 8px;
+  text-align: right;
+}
+
+.content {
+  font-size: 28px;
+  color: @note-color;
+
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}

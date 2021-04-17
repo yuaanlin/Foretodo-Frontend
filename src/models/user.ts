@@ -1,21 +1,28 @@
 import Taro from '@tarojs/taro';
-import {DvaModel} from './connect';
-import {getJWT, removeJWT, setJWT} from '../utils/request';
 import {
   getUserInfo,
+  wechatPreLogin,
   register,
-  updateUserInfo,
-  wechatPreLogin
-} from '../services/user';
+} from '@/services/user';
+import {getJWT, setJWT} from '@/utils/request';
+
+import {DvaModel} from './connect';
 
 export interface UserModelState {
   nickName: string;
   _id: string;
-  anonymousAvatar?: string;
   avatar?: string;
   isNew: boolean;
   login: boolean;
   openid?: string;
+  city?: string;
+  province?: string;
+  birth?: string;
+  country?: string;
+  email?: string;
+  wechat?: string;
+  cnid?: string;
+  gender?: string;
 }
 
 const teacher: DvaModel<UserModelState> = {
@@ -23,26 +30,31 @@ const teacher: DvaModel<UserModelState> = {
   state: {
     nickName: '',
     _id: '',
-    login: false,
     isNew: false,
+    login: false,
   },
   reducers: {
-    save(state, { payload }) {
-      return { ...state, ...payload };
+    save(state, {payload}) {
+      return {...state, ...payload};
     },
   },
   effects: {
-    preLogin: function* (_, {put, call}) {
+    * preLogin(_, {put, call}) {
       // 获取用户登录凭证
       try {
         const {code, errMsg} = yield Taro.login();
         if (code) {
-          let res = yield call(wechatPreLogin, {code});
+          let res;
+
+          const type = process.env.TARO_ENV;
+          if (type === 'weapp') {
+            res = yield call(wechatPreLogin, {code});
+          }
           const {code: status, data} = res;
           if (status === 0) {
             yield put({
               type: 'save',
-              payload: {...data, login: true},
+              payload: {...data},
             });
             const {token, isNew} = data;
 
@@ -55,14 +67,7 @@ const teacher: DvaModel<UserModelState> = {
                 type: 'getUserInfo',
               });
             } else {
-              const pages = Taro.getCurrentPages();
-              // 判断当前页面是不是从主页进入
-              if (pages[0].route === 'pages/home/index') {
-                // 如果是则导航到闪屏页
-                Taro.reLaunch({
-                  url: '/pages/splash/index',
-                });
-              }
+              Taro.navigateTo({url: '/pages/user/register'});
             }
           }
         } else {
@@ -89,16 +94,7 @@ const teacher: DvaModel<UserModelState> = {
             payload: {...data},
           });
           // 判断是否走完注册流程
-          // 如果没走完,跳转到注册页面
-          if (data.role === 'user' && !data.school) {
-            Taro.navigateTo({url: '/pages/user/register'});
-          } else {
-            // 如果走完 将学校数据存给 search 用
-            yield put({
-              type: 'search/save',
-              payload: {school: data.school},
-            });
-          }
+
           // 判断是否有昵称 如果有则判断已经登录
           if (data.nickName) {
             yield put({
@@ -117,88 +113,26 @@ const teacher: DvaModel<UserModelState> = {
         });
       }
     },
-    /**
-     * 登录时获取用户信息
-     */
-    * updateUserInfo({payload}, {put, call, select}) {
-      const {_id} = yield select((state) => state.user);
-      const res = yield call(updateUserInfo, _id, payload);
-
-      if (res.code === 0) {
-        yield put({
-          type: 'global/save',
-          payload: {showLoginModal: false},
-        });
-        yield put({
-          type: 'getUserInfo',
-        });
-      }
-    },
-    /**
-     * 修改信息后重新获取用户信息
-     */
-    * refreshUserInfo(_, {call, put}) {
-      const {code: status, data} = yield call(getUserInfo);
-      // 只有返回不为空的 data,才算获取到用户数据
-      if (status === 0 && data) {
-        // 恢复用户数据
-        yield put({
-          type: 'save',
-          payload: {...data},
-        });
-      }
-    },
-    * register(_, {call, put, select}) {
+    * register({payload}, {call, put, select}) {
       const {_id} = yield select((state) => state.user);
       try {
-        const {userInfo} = yield Taro.getUserInfo({});
-        const {code} = yield call(register, _id, userInfo);
+        const {code} = yield call(register, _id, payload);
         if (code === 0) {
           yield put({
             type: 'save',
-            payload: {...userInfo, avatar: userInfo.avatarUrl},
+            payload: {login: true, ...payload},
           });
-          Taro.navigateTo({url: '/pages/user/register'});
+          Taro.switchTab({url: '/pages/home/index'});
         }
       } catch (e) {
         Taro.showToast({
           icon: 'none',
-          title: '授权失败! 您将无法使用搜索、发布评论等功能，如果需使用，请允许授权',
+          title: '注册失败! 您将无法使用该小程序',
           duration: 5000,
         });
       }
     },
-    * logout(_, {put}) {
-      removeJWT();
-      put({type: 'save', payload: {login: false, token: ''}});
-    },
-    /**
-     * 更新用户信息
-     */
-    * updateInfo({payload}, {put, call, select}) {
-      const {_id} = yield select((state) => state.user);
-      try {
-        const res = yield call(updateUserInfo, _id, payload);
-        if (res.code === 0) {
-          yield put({
-            type: 'refreshUserInfo',
-          });
-          Taro.showToast({
-            title: '更新成功',
-            duration: 3000,
-            success: () => {
-              Taro.navigateBack();
-            },
-          });
-        }
-      } catch (e) {
-        Taro.showToast({
-          title: '更新失败,请重试',
-          icon: 'none',
-        });
-      }
-    },
-  }
+  },
 };
 
 export default teacher;

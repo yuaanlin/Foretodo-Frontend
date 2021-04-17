@@ -1,13 +1,13 @@
 {
-  "miniprogramRoot": "./dist",
-  "projectname": "fukedao-frontend",
-  "description": "",
-  "appid": "touristappid",
+  "miniprogramRoot": "./dist/weapp",
+  "projectname": "foretodo",
+  "description": "foretodo",
+  "appid": "wx300ec886148b5873",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
-    "postcss": false,
-    "minified": false
+    "postcss": true,
+    "minified": true
   },
   "compileType": "miniprogram"
 }

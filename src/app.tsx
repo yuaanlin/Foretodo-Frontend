@@ -1,9 +1,16 @@
+import '@/utils/ald';
+import '@tarojs/async-await';
 import Taro, { Component, Config } from '@tarojs/taro';
-import {Provider} from 'react-redux';
-import Index from './pages/index';
+import { Provider } from '@tarojs/redux';
+import { checkSession } from '@/utils/taro';
+
+import models from './models/index';
 import dva from './dva';
-import models from './models';
-import { checkSession } from './utils/taro';
+import Index from './pages/home';
+
+import './theme/theme.scss';
+import './theme/icon.scss';
+import './app.scss';
 
 declare global {
   namespace NodeJS {
@@ -13,15 +20,22 @@ declare global {
   }
 }
 
+// 里面的字符可以根据自己的需要进行调整
+
 const dvaApp = dva.createApp({
   initialState: {},
   models: models,
 });
 
+// 如果需要在 h5 环境中开启 React Devtools
+// 取消以下注释：
+// if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
+//   require('nerv-devtools')
+// }
 const store = dvaApp.getStore();
 global._store = store;
 
-class App extends Component {
+class _App extends Component {
   /**
    * 指定config的类型声明为: Taro.Config
    *
@@ -31,34 +45,15 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/home/index', // 01 主页
-      // 'pages/grade/index', // 14 关于页面
-      'pages/home/search', // 02 搜索页
-      'pages/detail/index', // 03 老师课程详情页
-      'pages/detail/comment', // 04 发布评论页面
-      'pages/addNew/index', // 05 新增或修改老师课程页
-      'pages/addNew/success', // 06 新增成功页
-      'pages/search/index', // 07 搜索学校 课程 老师等页面
-      'pages/user/register', // 08 用户注册页面
-      'pages/user/index', // 09 我的
-      'pages/audit/index', // 10 审核结果页面
-      'pages/splash/index', // 11 闪屏页
-      'pages/user/settings', // 12 个人设置页面
-      'pages/user/update', // 13 个人更新信息页面
-      'pages/about/index', // 14 关于页面
-      'pages/grade/index', // 15 成绩页面
-      'pages/user/identity', // 16 身份认证页面
-      'pages/exam/welcome', // 17 欢迎测试
-      'pages/exam/question', // 18 考试内容
-      'pages/exam/result', // 19 考试结果
-      'pages/grade/sync', // 20 成绩同步
-      'pages/detail/replydetails', // 21 二级回复查看界面
-      'pages/detail/addreply', //22 添加回复界面
+      'pages/home/index', // 主页
+      'pages/home/addTodoPackage',
+      'pages/user/register',
+      'pages/user/index',
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: '课否',
+      navigationBarTitleText: 'foretodo',
       navigationBarTextStyle: 'black',
     },
     tabBar: {
@@ -70,12 +65,6 @@ class App extends Component {
           pagePath: 'pages/home/index',
           iconPath: 'assets/images/tablist/home.png',
           selectedIconPath: 'assets/images/tablist/home-s.png',
-        },
-        {
-          text: '成绩',
-          pagePath: 'pages/grade/index',
-          iconPath: 'assets/images/tablist/grade.png',
-          selectedIconPath: 'assets/images/tablist/grade-s.png',
         },
         {
           text: '我的',
@@ -109,4 +98,4 @@ class App extends Component {
   }
 }
 
-Taro.render(<App />, document.getElementById('app'));
+Taro.render(<_App />, document.getElementById('app'));

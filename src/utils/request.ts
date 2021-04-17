@@ -6,9 +6,9 @@ const BASE_URL =
     ? 'http://localhost:7001'
     : process.env.TEST === 1
     ? // 测试地址
-      'https://kefou-test.topless.tech'
+      ''
     : // 线上开发地址
-      'https://kefou.topless.tech';
+      '';
 
 export const HTTP_ERROR = {
   '400': '发出的请求有错误，服务器没有进行新建或修改数据的操作。',

@@ -1,0 +1,24 @@
+{
+  "extends": ["taro"],
+  "rules": {
+    "no-unused-vars": "off",
+    "no-shadow": "off",
+    "jsx-quotes": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx", ".tsx"]
+      }
+    ],
+    "react/jsx-curly-brace-presence": "off"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "useJSXTextNode": true,
+    "project": "./tsconfig.json"
+  }
+}

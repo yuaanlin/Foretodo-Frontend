@@ -1,0 +1,15 @@
+$color-brand: #4d5af1;
+$color-border-base: #ece1fa;
+$at-switch-title-size: 32px;
+$at-tag-bg-color: #f1f4ff;
+$color-black-2: #060633;
+$color-black-1: #53566b;
+$color-black-3: #a1a4b8;
+$at-progress-bar-bg-color: #4d5af1;
+$success-color: #3dd451;
+$color-text-base: $color-black-1;
+$at-input-text-color: $color-black-2;
+$at-input-placeholder-color: $color-black-3;
+$at-list-extra-color: $color-black-3;
+/* 引入 Taro UI 默认样式 */
+@import '~taro-ui/dist/style/index.scss';
