@@ -1,16 +1,23 @@
-import Taro, {FC, useState,} from '@tarojs/taro'
+import Taro, {FC, useState, useEffect,} from '@tarojs/taro'
 import {Button, Picker, View} from "@tarojs/components";
+import {useDispatch, useSelector} from '@tarojs/redux';
 import {AtButton, AtInput, AtList, AtListItem} from "taro-ui";
 import styles from "@/pages/user/register.module.less";
 import {UserModelState} from "@/models/user";
 import {ItemType} from "@/models/home";
+import {ConnectState} from "@/models/connect";
+import AddTodoItem from "@/components";
 
 interface ThisTodoItem {
   duration: number,
   type: ItemType,
 }
 
+
 const AddTodoPackage: FC = () => {
+  const dispatch = useDispatch();
+  const {addPackage} = useSelector<ConnectState, ConnectState>((state) => state);
+  const {itemTypeGroup, items} = addPackage;
 
   const today = new Date().toLocaleDateString().split('/').join('-');
   let tomorrow = new Date();
@@ -21,7 +28,10 @@ const AddTodoPackage: FC = () => {
   const [beginTime, handleBeginTime] = useState<string>(today);
   const [endTime, handleEndTime] = useState<string>(tomorrowStr);
 
-  const [items, handleItems] = useState<ThisTodoItem[]>([]);
+
+  useEffect(() => {
+    dispatch({type: 'addPackage/fetchItemTypeGroup'});
+  }, []);
 
   const handleTitleChange = (value) => {
     handleTitle(value);
@@ -44,9 +54,12 @@ const AddTodoPackage: FC = () => {
   };
 
   const addTodoItem = () => {
-    const newItem: ThisTodoItem = {duration: ''};
-    handleItems([...items, newItem]);
-    console.log(items);
+    const index = items.length;
+    dispatch({
+      type: 'addPackage/addItem', payload: {
+        index
+      }
+    });
   }
 
   return (
@@ -65,6 +78,12 @@ const AddTodoPackage: FC = () => {
             <AtListItem title={'请选择计划的结束时间'} extraText={endTime}/>
           </AtList>
         </Picker>
+      </View>
+      <View>
+        {items && items.map((item, index) => (
+            <AddTodoItem index={index} type={item.type} group={item.group}/>
+          )
+        )}
       </View>
       <AtButton
         type={'primary'}

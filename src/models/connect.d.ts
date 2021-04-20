@@ -4,11 +4,13 @@ import { Reducer } from 'redux';
 import { GlobalModelState } from './global';
 import { UserModelState } from './user';
 import { HomeModelState } from './home';
+import { AddPackageModelState } from './addPackage';
 
 export {
   UserModelState,
   GlobalModelState,
   HomeModelState,
+  AddPackageModelState,
 };
 
 export interface ConnectState {
@@ -16,6 +18,7 @@ export interface ConnectState {
   global: GlobalModelState;
   user: UserModelState;
   home: HomeModelState;
+  addPackage: AddPackageModelState;
   routing: { location: Location };
 }
 
