@@ -66,7 +66,7 @@ const addPackage: DvaModel<AddPackageModelState> = {
       })
     },
 
-    * submit({payload}, {call, select}) {
+    * submit({payload}, {call, put, select}) {
       const {beginTime, endTime, title} = payload;
       const {items: itemIndexs, itemTypeGroup} = yield select((state) => state.addPackage);
       const items = itemIndexs.map((item) => {
@@ -79,6 +79,7 @@ const addPackage: DvaModel<AddPackageModelState> = {
       });
       const {code} = yield call(submitTodoPackage, {items, beginTime, endTime, title});
       if (code === 0) {
+        yield put({type: 'fetchItemTypeGroup'});
         Taro.switchTab({url: '/pages/home/index'});
       }
     },

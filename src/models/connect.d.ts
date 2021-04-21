@@ -1,16 +1,18 @@
-import { EffectsCommandMap, Subscription } from 'dva';
-import { Reducer } from 'redux';
+import {EffectsCommandMap, Subscription} from 'dva';
+import {Reducer} from 'redux';
 
-import { GlobalModelState } from './global';
-import { UserModelState } from './user';
-import { HomeModelState } from './home';
-import { AddPackageModelState } from './addPackage';
+import {GlobalModelState} from './global';
+import {UserModelState} from './user';
+import {HomeModelState} from './home';
+import {AddPackageModelState} from './addPackage';
+import {DetailModelState} from './detail';
 
 export {
   UserModelState,
   GlobalModelState,
   HomeModelState,
   AddPackageModelState,
+  DetailModelState,
 };
 
 export interface ConnectState {
@@ -19,6 +21,7 @@ export interface ConnectState {
   user: UserModelState;
   home: HomeModelState;
   addPackage: AddPackageModelState;
+  detail: DetailModelState;
   routing: { location: Location };
 }
 
@@ -44,7 +47,7 @@ export interface Loading {
 //*********************//
 
 // 导出基础方法类型
-export { Reducer, EffectsCommandMap, Subscription };
+export {Reducer, EffectsCommandMap, Subscription};
 
 export type Action<P = any, C = (payload: P) => void> = {
   type: string;

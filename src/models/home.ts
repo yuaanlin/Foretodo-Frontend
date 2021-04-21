@@ -20,7 +20,7 @@ export interface ItemTypeGroup {
 export interface ItemType {
   _id: string,
   name: string,
-  group: string
+  group: ItemTypeGroup
 }
 
 export interface TodoItem {
@@ -65,6 +65,11 @@ const home: DvaModel<HomeModelState> = {
         }
       }
     },
+
+    // * clickPackage({payload},{call,put,select}){
+    //     const {todoPackages} = yield select((state) => state.home);
+    //     const todoPackage
+    // },
 
     // * fetchLatestComments(_, {call, put, select}) {
     //   const {_id} = yield select((state) => state.user.school);

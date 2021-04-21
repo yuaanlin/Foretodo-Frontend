@@ -47,6 +47,7 @@ class _App extends Component {
     pages: [
       'pages/home/index', // 主页
       'pages/home/addTodoPackage',
+      'pages/detail/index',
       'pages/user/register',
       'pages/user/index',
     ],
