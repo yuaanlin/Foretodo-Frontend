@@ -28,6 +28,7 @@ const AddTodoPackage: FC = () => {
   const [beginTime, handleBeginTime] = useState<string>(today);
   const [endTime, handleEndTime] = useState<string>(tomorrowStr);
 
+  const checkSubmit = !(title && items.length > 0);
 
   useEffect(() => {
     dispatch({type: 'addPackage/fetchItemTypeGroup'});
@@ -60,7 +61,14 @@ const AddTodoPackage: FC = () => {
         index
       }
     });
-  }
+  };
+
+  const submit = () => {
+    dispatch({
+      type: 'addPackage/submit',
+      payload: {beginTime, endTime, title}
+    })
+  };
 
   return (
     <View>
@@ -91,6 +99,14 @@ const AddTodoPackage: FC = () => {
         onClick={addTodoItem}
       >
         增加计划条目
+      </AtButton>
+      <AtButton
+        type={'primary'}
+        size={'normal'}
+        onClick={submit}
+        disabled={checkSubmit}
+      >
+        完成
       </AtButton>
     </View>
   );

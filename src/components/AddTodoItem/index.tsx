@@ -71,25 +71,28 @@ const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type}) => {
     <View>
       <View className={'at-row'}>
         <View className={'at-col-10'}>
-          <Picker mode='selector' range={groups} onChange={handleGroupChange}>
-            <AtList>
-              <AtListItem
-                title='类别'
-                extraText={itemTypeGroup[group].name}
-              />
-            </AtList>
-          </Picker>
-          <Picker mode='selector' range={types} onChange={handleTypeChange}>
-            <AtList>
-              <AtListItem
-                title='计划'
-                extraText={types[type]}
-              />
-            </AtList>
-          </Picker>
+          <View className={`at-row`}>
+            <Picker className={'at-col-5'} mode='selector' range={groups} onChange={handleGroupChange}>
+              <AtList>
+                <AtListItem
+                  title='类别'
+                  extraText={itemTypeGroup[group].name}
+                />
+              </AtList>
+            </Picker>
+            <Picker className={'at-col-5'} mode='selector' range={types} onChange={handleTypeChange}>
+              <AtList>
+                <AtListItem
+                  title='计划'
+                  extraText={types[type]}
+                />
+              </AtList>
+            </Picker>
+          </View>
+
         </View>
         <View className={'at-col-2'}>
-          <AtIcon value='close' size='20' color='#F00' onClick={deleteThis}></AtIcon>
+          <AtIcon value='close' size='30' color='#F00' onClick={deleteThis} ></AtIcon>
           {/*{index}*/}
           {/*{type}*/}
           {/*{group}*/}

@@ -7,3 +7,12 @@ export const fetchItemTypeGroup = async () => {
     },
   });
 };
+
+export const submitTodoPackage = async (data)=>{
+  return request.post(`/add/todo-package`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+};
