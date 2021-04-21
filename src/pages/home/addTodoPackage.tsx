@@ -7,6 +7,7 @@ import {UserModelState} from "@/models/user";
 import {ItemType} from "@/models/home";
 import {ConnectState} from "@/models/connect";
 import AddTodoItem from "@/components";
+import {IAddPackgeItem} from "@/models/addPackage";
 
 interface ThisTodoItem {
   duration: number,
@@ -28,7 +29,12 @@ const AddTodoPackage: FC = () => {
   const [beginTime, handleBeginTime] = useState<string>(today);
   const [endTime, handleEndTime] = useState<string>(tomorrowStr);
 
-  const checkSubmit = !(title && items.length > 0);
+  let checkDuration = true;
+  for (let i = 0; i < items.length; i++) {
+    const {duration} = items[i];
+    checkDuration = checkDuration && duration > 0;
+  }
+  const checkSubmit = !(title && items.length > 0 && checkDuration);
 
   useEffect(() => {
     dispatch({type: 'addPackage/fetchItemTypeGroup'});
@@ -89,7 +95,7 @@ const AddTodoPackage: FC = () => {
       </View>
       <View>
         {items && items.map((item, index) => (
-            <AddTodoItem index={index} type={item.type} group={item.group}/>
+            <AddTodoItem index={index} type={item.type} group={item.group} duration={item.duration}/>
           )
         )}
       </View>

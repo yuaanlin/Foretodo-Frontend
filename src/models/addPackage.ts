@@ -7,6 +7,7 @@ import {UserModelState, DvaModel, HomeModelState} from "./connect";
 export interface IAddPackgeItem {
   type: number,
   group: number,
+  duration: number
 }
 
 export interface AddPackageModelState {
@@ -46,10 +47,9 @@ const addPackage: DvaModel<AddPackageModelState> = {
       })
     },
     * changeItem({payload}, {put, select}) {
-      const {index, group, type} = payload;
-      console.log(index, group, type);
+      const {index, group, type, duration} = payload;
       const {items} = yield select((state) => state.addPackage);
-      items[index] = {group, type};
+      items[index] = {group, type, duration};
       yield put({
         type: 'save',
         payload: {items}
@@ -69,9 +69,16 @@ const addPackage: DvaModel<AddPackageModelState> = {
     * submit({payload}, {call, select}) {
       const {beginTime, endTime, title} = payload;
       const {items: itemIndexs, itemTypeGroup} = yield select((state) => state.addPackage);
-      const items = itemIndexs.map<string>((item) => (itemTypeGroup[item.group].itemTypes[item.type]._id));
+      const items = itemIndexs.map((item) => {
+        const {duration} = item;
+        const type = (itemTypeGroup[item.group].itemTypes[item.type]._id);
+        return {
+          type,
+          duration
+        }
+      });
       const {code} = yield call(submitTodoPackage, {items, beginTime, endTime, title});
-      if(code === 0){
+      if (code === 0) {
         Taro.switchTab({url: '/pages/home/index'});
       }
     },

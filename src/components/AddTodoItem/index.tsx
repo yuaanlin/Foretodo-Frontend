@@ -2,18 +2,19 @@ import Taro, {FC} from '@tarojs/taro';
 import {Picker, View} from "@tarojs/components";
 import {useDispatch, useSelector} from "@tarojs/redux";
 import {ConnectState} from "@/models/connect";
-import {AtIcon, AtList, AtListItem} from 'taro-ui'
+import {AtIcon, AtInput, AtList, AtListItem} from 'taro-ui'
 import 'taro-ui/dist/style/components/flex.scss';
 
 import useEffect = Taro.useEffect;
 
 interface AddTodoItemProps {
+  duration: number,
   index: number,
   group: number,
   type: number,
 }
 
-const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type}) => {
+const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type, duration}) => {
   const dispatch = useDispatch();
   const {addPackage} = useSelector<ConnectState, ConnectState>((state) => state);
   const {itemTypeGroup} = addPackage;
@@ -21,7 +22,6 @@ const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type}) => {
   const types = itemTypeGroup[group].itemTypes.map<string>((group) => (group.name));
 
   const groups = itemTypeGroup.map<string>((itemTypeGroup) => (itemTypeGroup.name));
-
 
   useEffect(() => {
     dispatch({
@@ -39,6 +39,7 @@ const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type}) => {
     dispatch({
       type: 'addPackage/changeItem',
       payload: {
+        duration,
         index,
         group: parseInt(ind),
         type: 0
@@ -51,6 +52,7 @@ const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type}) => {
     dispatch({
       type: 'addPackage/changeItem',
       payload: {
+        duration,
         index,
         group,
         type: parseInt(ind)
@@ -63,6 +65,18 @@ const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type}) => {
       type: 'addPackage/deleteItem',
       payload: {
         index
+      },
+    })
+  };
+
+  const handleDurationChange = (value) => {
+    dispatch({
+      type: 'addPackage/changeItem',
+      payload: {
+        duration: parseInt(value),
+        type,
+        index,
+        group
       },
     })
   };
@@ -92,11 +106,12 @@ const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type}) => {
 
         </View>
         <View className={'at-col-2'}>
-          <AtIcon value='close' size='30' color='#F00' onClick={deleteThis} ></AtIcon>
-          {/*{index}*/}
-          {/*{type}*/}
-          {/*{group}*/}
+          <AtIcon value='close' size='30' color='#F00' onClick={deleteThis}></AtIcon>
         </View>
+      </View>
+      <View>
+        <AtInput name={'duration'} onChange={handleDurationChange.bind(this)} value={duration} title={'时长'}
+                 placeholder={'请输入时长'}/>
       </View>
     </View>
   )
