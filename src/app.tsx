@@ -1,8 +1,8 @@
 import '@/utils/ald';
 import '@tarojs/async-await';
-import Taro, { Component, Config } from '@tarojs/taro';
-import { Provider } from '@tarojs/redux';
-import { checkSession } from '@/utils/taro';
+import Taro, {Component, Config} from '@tarojs/taro';
+import {Provider} from '@tarojs/redux';
+import {checkSession} from '@/utils/taro';
 
 import models from './models/index';
 import dva from './dva';
@@ -52,10 +52,11 @@ class _App extends Component {
       'pages/user/index',
     ],
     window: {
+      navigationStyle: 'default',
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'foretodo',
-      navigationBarTextStyle: 'black',
+      navigationBarBackgroundColor: '#cfd1f7',
+      navigationBarTitleText: 'FORETODO',
+      navigationBarTextStyle: 'white',
     },
     tabBar: {
       selectedColor: '#4d5af1',
@@ -80,7 +81,7 @@ class _App extends Component {
   componentDidMount() {
     checkSession();
     Taro.getSystemInfo().then((systemInfo) => {
-      store.dispatch({ type: 'global/save', payload: { systemInfo } });
+      store.dispatch({type: 'global/save', payload: {systemInfo}});
     });
   }
 

@@ -3,3 +3,8 @@ page {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.at-progress__outer-inner {
+  height: 4PX;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
