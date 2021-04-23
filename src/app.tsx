@@ -50,6 +50,7 @@ class _App extends Component {
       'pages/detail/index',
       'pages/user/register',
       'pages/user/index',
+      'pages/forum/index'
     ],
     window: {
       navigationStyle: 'default',
@@ -65,6 +66,12 @@ class _App extends Component {
         {
           text: '首页',
           pagePath: 'pages/home/index',
+          iconPath: 'assets/images/tablist/home.png',
+          selectedIconPath: 'assets/images/tablist/home-s.png',
+        },
+        {
+          text: '社区',
+          pagePath: 'pages/forum/index',
           iconPath: 'assets/images/tablist/home.png',
           selectedIconPath: 'assets/images/tablist/home-s.png',
         },
