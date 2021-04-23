@@ -54,12 +54,12 @@ class _App extends Component {
     window: {
       navigationStyle: 'default',
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#cfd1f7',
+      navigationBarBackgroundColor: '#abaeff',
       navigationBarTitleText: 'FORETODO',
       navigationBarTextStyle: 'white',
     },
     tabBar: {
-      selectedColor: '#4d5af1',
+      selectedColor: '#abaeff',
       borderStyle: 'white',
       list: [
         {

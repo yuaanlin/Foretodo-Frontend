@@ -1,13 +1,9 @@
-import Taro, {
-  FC,
-  useEffect,
-} from '@tarojs/taro';
-import {View} from "@tarojs/components";
+import Taro, {FC,} from '@tarojs/taro';
+import {Text, View} from '@tarojs/components';
 import 'taro-ui/dist/style/components/flex.scss';
-import {useDispatch} from "@tarojs/redux";
+import {useDispatch} from '@tarojs/redux';
+import Checkin from '@/components/Checkin';
 import useState = Taro.useState;
-import Checkin from "@/components/Checkin";
-
 
 interface TodoItemProps {
   id: string,
@@ -21,29 +17,30 @@ const TodoItem: FC<TodoItemProps> = ({id, type, group, done, duration}) => {
 
   const dispatch = useDispatch();
 
-  const [checkin,handleCheckin] = useState<boolean>(false);
+  const [checkin, handleCheckin] = useState<boolean>(false);
 
-  const clickTodoItem = ()=>{
-    console.log(123)
+  const clickTodoItem = () => {
+    console.log(123);
     handleCheckin(true);
   };
 
   return (
-    <View onClick={clickTodoItem}>
-      <View className={'at-row'}>
-        <View className={'at-col'}>
-
-      </View>
-        <View className={'at-col'}>
-          {group}{type}
-        </View>
-        <View className={'at-col'}>
-          {duration}分钟
-        </View>
-      </View>
-      <Checkin id={id} type={type} group={group} duration={duration} disabled={!checkin}/>
+    <View onClick={clickTodoItem} style={{
+      borderBottom: '2PX solid #cfd1f7',
+      marginBottom: '12PX'
+    }}
+    >
+      <Text>
+        {group}类 - {type}
+      </Text>
+      <Text style={{float: 'right', opacity: 0.4}}>
+        {duration} 分钟
+      </Text>
+      <Checkin id={id} type={type} group={group} duration={duration}
+        disabled={!checkin}
+      />
     </View>
-  )
+  );
 };
 
 export default TodoItem;

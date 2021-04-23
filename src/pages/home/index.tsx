@@ -67,7 +67,6 @@ const Home: FC = () => {
 
       <AtButton
         type={'primary'}
-        // className={styles.button}
         size={'normal'}
         onClick={addTodoPackage}
       >

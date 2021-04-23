@@ -1,9 +1,8 @@
-import Taro, {FC, useState,} from '@tarojs/taro'
-import { Picker, View} from "@tarojs/components";
-import {AtButton, AtInput, AtList, AtListItem} from "taro-ui";
-import {useDispatch} from "@tarojs/redux";
+import Taro, {FC, useState,} from '@tarojs/taro';
+import {Picker, View} from '@tarojs/components';
+import {AtButton, AtInput, AtList, AtListItem} from 'taro-ui';
+import {useDispatch} from '@tarojs/redux';
 import styles from './register.module.less';
-
 
 interface Region {
   province: string,
@@ -23,14 +22,15 @@ const Register: FC = () => {
   const [email, handleMail] = useState<string>('');
 
   const ProMap = {
-    "北京": {index: 0, cities: ["北京"]},
-    "浙江": {index: 1, cities: ["杭州", "温州"]},
-    "江苏": {index: 2, cities: ["南京", "苏州"]},
-  }
+    '北京': {index: 0, cities: ['北京']},
+    '浙江': {index: 1, cities: ['杭州', '温州']},
+    '江苏': {index: 2, cities: ['南京', '苏州']},
+  };
 
-  const genderSelector = ["男", "女"];
+  const genderSelector = ['男', '女'];
 
-  const [region, handleRegion] = useState<Region>({province: "浙江", city: "杭州", cities: []});
+  const [region, handleRegion] = useState<Region>(
+    {province: '浙江', city: '杭州', cities: []});
   const [birth, handleBirth] = useState<string>(tDate);
 
   const checkSubmit = !(nickName && email);
@@ -45,13 +45,17 @@ const Register: FC = () => {
 
   const handleProviceChange = (event) => {
     const province = Object.getOwnPropertyNames(ProMap)[event.detail.value];
-    handleRegion({province, cities: ProMap[province].cities, city: ProMap[province].cities[0]});
+    handleRegion({
+      province,
+      cities: ProMap[province].cities,
+      city: ProMap[province].cities[0]
+    });
   };
 
   const handleCityChange = (event) => {
     const {province, cities} = region;
     const city = cities[event.detail.value];
-    handleRegion({province, cities, city})
+    handleRegion({province, cities, city});
   };
 
   const handleGenderChange = (event) => {
@@ -74,36 +78,47 @@ const Register: FC = () => {
   return (
     <View className={styles.container}>
       <View>
-        <AtInput name={'nickName'} onChange={handleNickNameChange.bind(this)} value={nickName} title={'昵称'}
-                 placeholder={'请输入您的昵称'}/>
+        <AtInput name={'nickName'} onChange={handleNickNameChange.bind(this)}
+          value={nickName} title={'昵称'}
+          placeholder={'请输入您的昵称'}
+        />
       </View>
       <View>
-        <AtInput name={'mail'} onChange={handleMailChange.bind(this)} value={email} title={'昵称'}
-                 placeholder={'请输入您的邮箱'}/>
+        <AtInput name={'mail'} onChange={handleMailChange.bind(this)}
+          value={email} title={'昵称'}
+          placeholder={'请输入您的邮箱'}
+        />
       </View>
       <View>
-        <Picker mode='selector' range={genderSelector} onChange={handleGenderChange}>
+        <Picker mode="selector" range={genderSelector}
+          onChange={handleGenderChange}
+          value={gender === '男' ? 0 : 1}
+        >
           <AtList>
             <AtListItem
-              title='性别'
+              title="性别"
               extraText={gender}
             />
           </AtList>
         </Picker>
       </View>
       <View>
-        <Picker mode='selector' range={Object.getOwnPropertyNames(ProMap)} onChange={handleProviceChange}>
+        <Picker mode="selector" range={Object.getOwnPropertyNames(ProMap)}
+          onChange={handleProviceChange}
+        >
           <AtList>
             <AtListItem
-              title='省'
+              title="省"
               extraText={region.province}
             />
           </AtList>
         </Picker>
-        <Picker mode='selector' range={region.cities} onChange={handleCityChange}>
+        <Picker mode="selector" range={region.cities}
+          onChange={handleCityChange}
+        >
           <AtList>
             <AtListItem
-              title='市'
+              title="市"
               extraText={region.city}
             />
           </AtList>
@@ -112,7 +127,7 @@ const Register: FC = () => {
       <View>
         <Picker mode={'date'} onChange={handleBirthChange}>
           <AtList>
-            <AtListItem title={'请选择您的生日'} extraText={birth}/>
+            <AtListItem title={'请选择您的生日'} extraText={birth} />
           </AtList>
         </Picker>
       </View>
@@ -127,7 +142,7 @@ const Register: FC = () => {
         提交
       </AtButton>
     </View>
-  )
+  );
 };
 
 export default Register;
