@@ -1,7 +1,7 @@
 import 'taro-ui/dist/style/components/flex.scss';
 import Taro, {FC, useEffect,} from '@tarojs/taro';
-import {AtButton, AtMessage} from 'taro-ui';
-import {View} from '@tarojs/components';
+import {AtFab, AtMessage} from 'taro-ui';
+import {Text, View} from '@tarojs/components';
 import {useDispatch, useSelector} from '@tarojs/redux';
 import {ConnectState} from '@/models/connect';
 import {TodoPackage} from '@/components';
@@ -65,15 +65,14 @@ const Home: FC = () => {
         </View>
       </View>
 
-      <AtButton
-        type={'primary'}
-        size={'normal'}
-        onClick={addTodoPackage}
-      >
-        增加package
-      </AtButton>
       <AtMessage />
-      {/*<LoginModal opened={showLoginModal}/>*/}
+
+      <View style={{position: 'fixed', bottom: '32PX', right: '32PX'}}>
+        <AtFab onClick={addTodoPackage}>
+          <Text className="at-fab__icon at-icon at-icon-add" />
+        </AtFab>
+      </View>
+
     </View>
   );
 };
