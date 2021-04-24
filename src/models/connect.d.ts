@@ -2,10 +2,12 @@ import {EffectsCommandMap, Subscription} from 'dva';
 import {Reducer} from 'redux';
 
 import {GlobalModelState} from './global';
+import {AddPostModelState} from './addPost';
 import {UserModelState} from './user';
 import {HomeModelState} from './home';
 import {AddPackageModelState} from './addPackage';
 import {DetailModelState} from './detail';
+import {ForumModelState} from './forum';
 
 export {
   UserModelState,
@@ -13,6 +15,7 @@ export {
   HomeModelState,
   AddPackageModelState,
   DetailModelState,
+  AddPostModelState
 };
 
 export interface ConnectState {
@@ -21,6 +24,8 @@ export interface ConnectState {
   user: UserModelState;
   home: HomeModelState;
   addPackage: AddPackageModelState;
+  forum: ForumModelState;
+  addPost: AddPostModelState;
   detail: DetailModelState;
   routing: { location: Location };
 }

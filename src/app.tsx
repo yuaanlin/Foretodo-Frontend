@@ -50,7 +50,8 @@ class _App extends Component {
       'pages/detail/index',
       'pages/user/register',
       'pages/user/index',
-      'pages/forum/index'
+      'pages/forum/index',
+      'pages/forum/addPost'
     ],
     window: {
       navigationStyle: 'default',

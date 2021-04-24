@@ -1,8 +1,7 @@
 import Taro from '@tarojs/taro';
-import home, {ItemTypeGroup} from "@/models/home";
-import {fetchItemTypeGroup, submitTodoPackage} from "@/services/addPackage";
-import {UserModelState, DvaModel, HomeModelState} from "./connect";
-
+import {ItemTypeGroup} from '@/models/home';
+import {fetchItemTypeGroup, submitTodoPackage} from '@/services/addPackage';
+import {DvaModel} from './connect';
 
 export interface IAddPackgeItem {
   type: number,
@@ -44,7 +43,7 @@ const addPackage: DvaModel<AddPackageModelState> = {
       yield put({
         type: 'save',
         payload: {items}
-      })
+      });
     },
     * changeItem({payload}, {put, select}) {
       const {index, group, type, duration} = payload;
@@ -53,7 +52,7 @@ const addPackage: DvaModel<AddPackageModelState> = {
       yield put({
         type: 'save',
         payload: {items}
-      })
+      });
     },
 
     * deleteItem({payload}, {put, select}) {
@@ -63,21 +62,23 @@ const addPackage: DvaModel<AddPackageModelState> = {
       yield put({
         type: 'save',
         payload: {items}
-      })
+      });
     },
 
     * submit({payload}, {call, put, select}) {
       const {beginTime, endTime, title} = payload;
-      const {items: itemIndexs, itemTypeGroup} = yield select((state) => state.addPackage);
+      const {items: itemIndexs, itemTypeGroup} = yield select(
+        (state) => state.addPackage);
       const items = itemIndexs.map((item) => {
         const {duration} = item;
         const type = (itemTypeGroup[item.group].itemTypes[item.type]._id);
         return {
           type,
           duration
-        }
+        };
       });
-      const {code} = yield call(submitTodoPackage, {items, beginTime, endTime, title});
+      const {code} = yield call(submitTodoPackage,
+        {items, beginTime, endTime, title});
       if (code === 0) {
         yield put({type: 'fetchItemTypeGroup'});
         Taro.switchTab({url: '/pages/home/index'});
