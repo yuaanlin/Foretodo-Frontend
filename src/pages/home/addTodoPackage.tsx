@@ -5,6 +5,7 @@ import {AtButton, AtInput, AtList, AtListItem} from 'taro-ui';
 import {ItemType} from '@/models/home';
 import {ConnectState} from '@/models/connect';
 import AddTodoItem from '@/components';
+import styles from './addTodoPackage.module.less';
 
 interface ThisTodoItem {
   duration: number,
@@ -101,21 +102,30 @@ const AddTodoPackage: FC = () => {
           )
         )}
       </View>
-      <AtButton
-        type={'primary'}
-        size={'normal'}
-        onClick={addTodoItem}
-      >
-        增加计划条目
-      </AtButton>
-      <AtButton
-        type={'primary'}
-        size={'normal'}
-        onClick={submit}
-        disabled={checkSubmit}
-      >
-        完成
-      </AtButton>
+      <View>
+        <AtButton
+          className={styles.addBtn}
+          type={'secondary'}
+          size={'normal'}
+          onClick={addTodoItem}
+        >
+          + 增加计划条目
+        </AtButton>
+      </View>
+
+
+      <View className={'at-row at-row__justify--end'}>
+        <AtButton
+          className={styles.completeBtn}
+          type={'primary'}
+          size={'normal'}
+          onClick={submit}
+          disabled={checkSubmit}
+        >
+          完成
+        </AtButton>
+      </View>
+
     </View>
   );
 };

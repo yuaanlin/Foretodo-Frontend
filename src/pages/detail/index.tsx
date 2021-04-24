@@ -23,6 +23,8 @@ const Detail: FC = () => {
     endTime
   } = useSelector<ConnectState, DetailModelState>((state) => state.detail);
 
+  const colors = ['\#FFFF99',"\#CCFFFF",'\#99CCCC','\#FFCCCC','\#996699','\#CC9966'];
+
   return (
     <View style={{padding: '18PX'}}>
       <View style={{
@@ -50,10 +52,10 @@ const Detail: FC = () => {
         marginLeft: '32PX',
       }}
       >
-        {(items && items.map((item) => (
-          <TodoItem id={item._id} type={item.type.name}
+        {(items && items.map((item,index) => (
+          <TodoItem Id={item._id} type={item.type.name}
             group={item.type.group.name} done={item.done}
-            duration={item.duration}
+            duration={item.duration} color={colors[index]}
           />
         )))}
       </View>
