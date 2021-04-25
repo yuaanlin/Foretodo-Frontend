@@ -1,5 +1,5 @@
 import {TodoItemPackge} from '@/models/home';
-import {DvaModel} from '@/models/connect';
+import {DvaModel, UserModelState} from '@/models/connect';
 import {fetchPosts} from '@/services/post';
 
 export interface ForumModelState {
@@ -11,6 +11,7 @@ interface Post {
   content: string
   createAt: string
   package: TodoItemPackge
+  user: UserModelState
 }
 
 const forum: DvaModel<ForumModelState> = {
