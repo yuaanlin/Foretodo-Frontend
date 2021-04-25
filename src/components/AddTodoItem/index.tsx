@@ -1,9 +1,10 @@
 import Taro, {FC} from '@tarojs/taro';
-import {Picker, View} from "@tarojs/components";
+import {Picker, Text, View} from "@tarojs/components";
 import {useDispatch, useSelector} from "@tarojs/redux";
 import {ConnectState} from "@/models/connect";
 import {AtIcon, AtInput, AtList, AtListItem} from 'taro-ui'
 import 'taro-ui/dist/style/components/flex.scss';
+import './index.scss'
 
 import useEffect = Taro.useEffect;
 
@@ -22,6 +23,8 @@ const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type, duration}) => {
   const types = itemTypeGroup[group].itemTypes.map<string>((group) => (group.name));
 
   const groups = itemTypeGroup.map<string>((itemTypeGroup) => (itemTypeGroup.name));
+
+  const colors = ['\#FFFF99',"\#CCFFFF",'\#99CCCC','\#FFCCCC','\#996699','\#CC9966'];
 
   useEffect(() => {
     dispatch({
@@ -84,35 +87,44 @@ const AddTodoItem: FC<AddTodoItemProps> = ({index, group, type, duration}) => {
   return (
     <View>
       <View className={'at-row'}>
-        <View className={'at-col-10'}>
+        <View className={'at-col-1'}></View>
+        <View className={'at-col-1 icon'}>
+          <AtIcon  value={'star-2'} size='25' color={colors[index%6]}/>
+        </View>
+
+        <View className={'at-col-8 content'}>
           <View className={`at-row`}>
-            <Picker className={'at-col-5'} mode='selector' range={groups} onChange={handleGroupChange}>
+            <Picker className={'at-col-4'} mode='selector' range={groups} onChange={handleGroupChange}>
               <AtList>
                 <AtListItem
-                  title='类别'
+                  title=''
                   extraText={itemTypeGroup[group].name}
                 />
               </AtList>
             </Picker>
-            <Picker className={'at-col-5'} mode='selector' range={types} onChange={handleTypeChange}>
+            <Picker className={'at-col-4'} mode='selector' range={types} onChange={handleTypeChange}>
               <AtList>
                 <AtListItem
-                  title='计划'
+                  title=''
                   extraText={types[type]}
                 />
               </AtList>
             </Picker>
-          </View>
+            <View className={'at-col-4'}>
+              <AtInput name={'duration'} onChange={handleDurationChange.bind(this)} value={duration} title={''}
+                       placeholder={'时长'}>
+                分钟
+              </AtInput>
 
+            </View>
+          </View>
         </View>
-        <View className={'at-col-2'}>
-          <AtIcon value='close' size='30' color='#F00' onClick={deleteThis}></AtIcon>
+        <View className={'at-col-1 iconD'} onClick={deleteThis}>
+          <AtIcon  value='trash' size='25' color='#DDDDDD' ></AtIcon>
         </View>
+
       </View>
-      <View>
-        <AtInput name={'duration'} onChange={handleDurationChange.bind(this)} value={duration} title={'时长'}
-                 placeholder={'请输入时长'}/>
-      </View>
+
     </View>
   )
 
