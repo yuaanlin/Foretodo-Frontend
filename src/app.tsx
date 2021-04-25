@@ -74,8 +74,8 @@ class _App extends Component {
         {
           text: '社区',
           pagePath: 'pages/forum/index',
-          iconPath: 'assets/images/tablist/home.png',
-          selectedIconPath: 'assets/images/tablist/home-s.png',
+          iconPath: 'assets/images/tablist/forum.png',
+          selectedIconPath: 'assets/images/tablist/forum-s.png',
         },
         {
           text: '我的',

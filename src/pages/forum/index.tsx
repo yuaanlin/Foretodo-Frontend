@@ -1,8 +1,11 @@
 import Taro, {FC, useEffect} from '@tarojs/taro';
-import {Text, View} from '@tarojs/components';
+import {Image, Text, View} from '@tarojs/components';
 import {AtFab} from 'taro-ui';
 import {useDispatch, useSelector} from '@tarojs/redux';
 import {ConnectState} from '@/models/connect';
+import StarIcon from '@/assets/images/tablist/shoucang1.png';
+import PenIcon from '@/assets/images/tablist/shuru.png';
+import LikeIcon from '@/assets/images/tablist/dianzan.png';
 
 export const cardColors = [
   {
@@ -47,8 +50,10 @@ const Forum: FC = () => {
   return (
     <View style={{padding: '18PX'}}>
 
-      {posts.map(
-        (p, i) => {
+      {posts
+        .sort((a, b) =>
+          new Date(b.createAt).getTime() - new Date(a.createAt).getTime())
+        .map((p, i) => {
           const color = cardColors[Math.round(Math.random() * 10) % 3];
           return <View key={i} style={{
             margin: '8PX 0',
@@ -74,24 +79,62 @@ const Forum: FC = () => {
                   {p.user.nickName}
                 </View>
                 <View
-                  style={{fontSize: '16PX', opacity: 1, margin: '6PX 0 4PX 0'}}
+                  style={{
+                    fontSize: '16PX',
+                    opacity: 1,
+                    margin: '6PX 0 4PX 0'
+                  }}
                 >
                   {p.title}
                 </View>
                 <View style={{fontSize: '14PX', opacity: 0.6}}>
                   {p.content}
                 </View>
+                <View style={{
+                  marginTop: '12PX',
+                  backgroundColor: color.bg,
+                  padding: '8PX 12PX',
+                  borderRadius: '12PX',
+                  color: color.primary,
+                }}
+                >
+                  {p.package.title} 共 {p.package.items.length} 个任务
+                </View>
               </View>
             </View>
             <View style={{
-              marginTop: '12PX',
-              backgroundColor: color.bg,
-              padding: '8PX 12PX',
-              borderRadius: '12PX',
-              color: color.primary
+              display: 'flex',
+              justifyContent: 'space-around',
+              marginTop: '12PX'
             }}
             >
-              {p.package.title} 共 {p.package.items.length} 个任务
+              <View style={{display: 'flex'}}>
+                <Image src={StarIcon} style={{
+                  width: '18PX',
+                  height: '18PX',
+                  marginRight: '12PX'
+                }}
+                />
+                收藏
+              </View>
+              <View style={{display: 'flex'}}>
+                <Image src={PenIcon} style={{
+                  width: '18PX',
+                  height: '18PX',
+                  marginRight: '12PX'
+                }}
+                />
+                评论
+              </View>
+              <View style={{display: 'flex'}}>
+                <Image src={LikeIcon} style={{
+                  width: '18PX',
+                  height: '18PX',
+                  marginRight: '12PX'
+                }}
+                />
+                点赞
+              </View>
             </View>
           </View>;
         })}
